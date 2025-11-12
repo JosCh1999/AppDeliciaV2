@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:pasteleria_delicia/src/features/auth/presentation/screens/login_screen.dart';
@@ -9,6 +8,8 @@ import 'package:pasteleria_delicia/src/features/home/presentation/screens/home_s
 import 'package:pasteleria_delicia/src/features/orders/presentation/screens/orders_screen.dart';
 import 'package:pasteleria_delicia/src/features/profile/presentation/screens/profile_screen.dart';
 import 'package:pasteleria_delicia/src/common_widgets/scaffold_with_nav_bar.dart';
+import 'package:pasteleria_delicia/src/features/products/presentation/screens/product_detail_screen.dart';
+import 'package:pasteleria_delicia/src/models/product_model.dart';
 
 final _rootNavigatorKey = GlobalKey<NavigatorState>();
 final _shellNavigatorKey = GlobalKey<NavigatorState>();
@@ -36,9 +37,17 @@ final router = GoRouter(
       },
       routes: [
         GoRoute(
-          path: '/',
-          builder: (context, state) => const HomeScreen(),
-        ),
+            path: '/',
+            builder: (context, state) => const HomeScreen(),
+            routes: [
+              GoRoute(
+                path: 'product/:id',
+                builder: (context, state) {
+                  final product = state.extra as Product;
+                  return ProductDetailScreen(product: product);
+                },
+              ),
+            ]),
         GoRoute(
           path: '/cart',
           builder: (context, state) => const CartScreen(),
@@ -55,3 +64,4 @@ final router = GoRouter(
     ),
   ],
 );
+

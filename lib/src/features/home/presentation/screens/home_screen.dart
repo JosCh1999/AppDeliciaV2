@@ -1,10 +1,9 @@
-
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:pasteleria_delicia/src/models/product_model.dart';
 import 'package:pasteleria_delicia/src/providers/cart_provider.dart';
 import 'package:pasteleria_delicia/src/services/product_service.dart';
 import 'package:provider/provider.dart';
-import 'package:go_router/go_router.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -91,7 +90,10 @@ class ProductCard extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          _buildImageWithOverlay(context, theme),
+          InkWell(
+            onTap: () => context.go('/product/${product.id}', extra: product),
+            child: _buildImageWithOverlay(context, theme),
+          ),
           Padding(
             padding: const EdgeInsets.all(16.0),
             child: Column(
@@ -219,7 +221,7 @@ class TiledNoiseBackground extends StatelessWidget {
           height: double.infinity,
           decoration: const BoxDecoration(
             image: DecorationImage(
-              image: AssetImage('assets/images/noise.png'), 
+              image: AssetImage('assets/images/noise.png'),
               repeat: ImageRepeat.repeat,
               opacity: 0.05,
             ),
