@@ -14,8 +14,25 @@ class OrderService {
       totalAmount: cartProvider.totalAmount,
       shippingAddress: shippingAddress,
       createdAt: Timestamp.now(),
+      status: 'Pendiente', // Estado por defecto al crear
     );
 
     await _ordersCollection.add(order.toMap());
+  }
+
+  // Devuelve un stream de pedidos para un usuario específico
+  Stream<List<OrderModel>> getOrders(String userId) {
+    return _ordersCollection
+        .where('userId', isEqualTo: userId)
+        .orderBy('createdAt', descending: true)
+        .snapshots()
+        .map((snapshot) {
+      try {
+        return snapshot.docs.map((doc) => OrderModel.fromMap(doc.data() as Map<String, dynamic>, doc.id)).toList();
+      } catch (e) {
+        print('Error al mapear los pedidos: $e');
+        return [];
+      }
+    });
   }
 }

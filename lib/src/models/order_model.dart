@@ -1,4 +1,3 @@
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:pasteleria_delicia/src/models/cart_item_model.dart';
 
@@ -20,6 +19,28 @@ class OrderModel {
     this.status = 'Pendiente',
     required this.createdAt,
   });
+
+  // **MÉTODO AÑADIDO PARA SOLUCIONAR EL ERROR**
+  // Permite crear una copia de la orden, modificando solo los campos que nos interesan.
+  OrderModel copyWith({
+    String? id,
+    String? userId,
+    List<CartItem>? items,
+    double? totalAmount,
+    ShippingAddress? shippingAddress,
+    String? status,
+    Timestamp? createdAt,
+  }) {
+    return OrderModel(
+      id: id ?? this.id,
+      userId: userId ?? this.userId,
+      items: items ?? this.items,
+      totalAmount: totalAmount ?? this.totalAmount,
+      shippingAddress: shippingAddress ?? this.shippingAddress,
+      status: status ?? this.status,
+      createdAt: createdAt ?? this.createdAt,
+    );
+  }
 
   Map<String, dynamic> toMap() {
     return {

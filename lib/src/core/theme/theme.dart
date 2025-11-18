@@ -15,6 +15,8 @@ class AppTheme {
     appBarTheme: _appBarTheme(ColorScheme.fromSeed(seedColor: _primarySeedColor, brightness: Brightness.light)),
     elevatedButtonTheme: _elevatedButtonTheme(ColorScheme.fromSeed(seedColor: _primarySeedColor, brightness: Brightness.light)),
     cardTheme: _cardTheme,
+    floatingActionButtonTheme: _floatingActionButtonTheme(ColorScheme.fromSeed(seedColor: _primarySeedColor, brightness: Brightness.light)),
+    iconTheme: _iconTheme(ColorScheme.fromSeed(seedColor: _primarySeedColor, brightness: Brightness.light)),
   );
 
   static final ThemeData darkTheme = ThemeData(
@@ -27,6 +29,8 @@ class AppTheme {
     appBarTheme: _appBarTheme(ColorScheme.fromSeed(seedColor: _primarySeedColor, brightness: Brightness.dark)),
     elevatedButtonTheme: _elevatedButtonTheme(ColorScheme.fromSeed(seedColor: _primarySeedColor, brightness: Brightness.dark)),
     cardTheme: _cardTheme,
+    floatingActionButtonTheme: _floatingActionButtonTheme(ColorScheme.fromSeed(seedColor: _primarySeedColor, brightness: Brightness.dark)),
+    iconTheme: _iconTheme(ColorScheme.fromSeed(seedColor: _primarySeedColor, brightness: Brightness.dark)),
   );
 
   static final TextTheme _textTheme = TextTheme(
@@ -72,4 +76,19 @@ class AppTheme {
     ),
     margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
   );
+
+  static FloatingActionButtonThemeData _floatingActionButtonTheme(ColorScheme colorScheme) =>
+      FloatingActionButtonThemeData(
+        backgroundColor: colorScheme.primary,
+        foregroundColor: colorScheme.onPrimary,
+        elevation: 8,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(16),
+        ),
+      );
+
+  static IconThemeData _iconTheme(ColorScheme colorScheme) => IconThemeData(
+        color: colorScheme.primary,
+        size: 24,
+      );
 }

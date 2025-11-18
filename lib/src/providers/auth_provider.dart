@@ -33,9 +33,11 @@ class AuthProvider with ChangeNotifier {
       if (user != null) {
         _user = user;
         _status = AuthStatus.authenticated;
+        debugPrint('✅ [AuthProvider] User logged in: uid=${user.uid}, name=${user.name}, email=${user.email}');
       } else {
         _user = null;
         _status = AuthStatus.unauthenticated;
+        debugPrint('🚪 [AuthProvider] User logged out');
       }
       notifyListeners();
     });
@@ -93,6 +95,13 @@ class AuthProvider with ChangeNotifier {
     _user = null;
     _status = AuthStatus.unauthenticated;
     notifyListeners();
+  }
+
+  // Método para actualizar el perfil del usuario
+  void updateUserProfile(myuser.UserModel updatedUser) {
+    _user = updatedUser;
+    notifyListeners();
+    debugPrint('✅ [AuthProvider] User profile updated: name=${updatedUser.name}, phone=${updatedUser.phoneNumber}');
   }
 
   // Función de ayuda para traducir errores

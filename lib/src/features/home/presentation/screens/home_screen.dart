@@ -15,7 +15,10 @@ class HomeScreen extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text('Pastelería Delicia', style: theme.textTheme.headlineSmall?.copyWith(fontWeight: FontWeight.bold)),
+        title: Text('Pastelería Delicia', style: theme.textTheme.headlineSmall?.copyWith(fontWeight: FontWeight.bold, color: theme.colorScheme.onPrimary)),
+        backgroundColor: theme.colorScheme.primary,
+        foregroundColor: theme.colorScheme.onPrimary,
+        elevation: 8,
         actions: [
           Consumer<CartProvider>(
             builder: (context, cart, child) {
@@ -116,6 +119,8 @@ class ProductCard extends StatelessWidget {
   }
 
   Widget _buildImageWithOverlay(BuildContext context, ThemeData theme) {
+    final isOutOfStock = product.stock <= 0;
+    
     return Stack(
       children: [
         ClipRRect(
@@ -147,6 +152,33 @@ class ProductCard extends StatelessWidget {
             ),
           ),
         ),
+        // Overlay si está agotado
+        if (isOutOfStock)
+          Positioned.fill(
+            child: Container(
+              decoration: BoxDecoration(
+                borderRadius: const BorderRadius.vertical(top: Radius.circular(12.0)),
+                color: Colors.black.withOpacity(0.5),
+              ),
+              child: Center(
+                child: Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                  decoration: BoxDecoration(
+                    color: Colors.red,
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                  child: const Text(
+                    'AGOTADO',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 18,
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          ),
         Positioned(
           top: 16,
           left: 16,
@@ -178,23 +210,27 @@ class ProductCard extends StatelessWidget {
   }
 
   Widget _buildAddToCartButton(BuildContext context, ThemeData theme) {
+    final isOutOfStock = product.stock <= 0;
+    
     return ElevatedButton.icon(
-      onPressed: () {
-        final cartProvider = context.read<CartProvider>();
-        cartProvider.addToCart(product);
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text('${product.name} fue añadido al carrito.'),
-            duration: const Duration(seconds: 2),
-            action: SnackBarAction(
-              label: 'VER CARRITO',
-              onPressed: () => context.go('/cart'),
-            ),
-          ),
-        );
-      },
-      icon: const Icon(Icons.add_shopping_cart, size: 20),
-      label: const Text('Añadir al Carrito'),
+      onPressed: isOutOfStock
+          ? null
+          : () {
+              final cartProvider = context.read<CartProvider>();
+              cartProvider.addToCart(product);
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(
+                  content: Text('${product.name} fue añadido al carrito.'),
+                  duration: const Duration(seconds: 2),
+                  action: SnackBarAction(
+                    label: 'VER CARRITO',
+                    onPressed: () => context.go('/cart'),
+                  ),
+                ),
+              );
+            },
+      icon: Icon(isOutOfStock ? Icons.block : Icons.add_shopping_cart, size: 20),
+      label: Text(isOutOfStock ? 'Agotado' : 'Añadir al Carrito'),
       style: ElevatedButton.styleFrom(
         padding: const EdgeInsets.symmetric(vertical: 16),
         textStyle: theme.textTheme.labelLarge?.copyWith(fontWeight: FontWeight.bold),
