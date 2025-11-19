@@ -40,15 +40,6 @@ lib/
 │       └── theme/           # Temas y estilos
 ```
 
-## 📖 Documentación de Usuario
-
-Para los usuarios finales de la aplicación, consulta:
-
-- **[📱 Manual Completo de Usuario](./MANUAL_USUARIO.md)** - Guía detallada de todas las características
-- **[⚡ Guía Rápida](./GUIA_RAPIDA.md)** - Resumen rápido de funciones principales  
-- **[📲 Instrucciones de Instalación](./INSTRUCCIONES_INSTALACION.md)** - Paso a paso para descargar e instalar
-
----
 
 ## 🛠️ Requisitos
 
